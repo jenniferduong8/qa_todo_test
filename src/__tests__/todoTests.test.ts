@@ -12,7 +12,7 @@ const driver: WebDriver = new Builder()
   .build();
 
 class TodoPage {
-  //I copied most of these from firstTest.test.ts
+
   todoInput: By = By.className("new-todo");
   todos: By = By.css("li.todo");
   todoLabel: By = By.css("label");
@@ -24,11 +24,10 @@ class TodoPage {
 
   driver: WebDriver;
 
-  //If my page is always at a specific URL, I like to define it
+  
   url: string = "https://devmountain.github.io/qa_todos/";
 
-  //even though there are no methods on this page object, adding the driver in
-  //is a good habit to have
+ 
   constructor(driver: WebDriver) {
     this.driver = driver;
   }
@@ -47,12 +46,12 @@ describe("the todo app", () => {
     await driver.quit();
   });
   it("can add a todo", async () => {
-    //copied this from firstTest.test.ts
+    
     await driver.wait(until.elementLocated(tp.todoInput));
     await driver.findElement(tp.todoInput).sendKeys("Test To-Do\n");
   });
   it("can remove a todo", async () => {
-    //copied this from firstTest.test.ts
+    
     let myTodos = await driver.findElements(tp.todos);
     await myTodos
       .filter(async (todo) => {
@@ -69,11 +68,7 @@ describe("the todo app", () => {
     expect(myTodo.length).toEqual(0);
   });
   it("can mark a todo with a star", async () => {
-    //This test starts out like adding/removing; we add a todo, then find it and
-    //do something; in this case, we click the "star"
-    //
-    //In order to know whether the star worked or not, we'll just count all the
-    //starred todos at the start, and again at the end.
+  
     await driver.wait(until.elementLocated(tp.todoInput));
     let startingStars = await (await driver.findElements(tp.starBanner)).length;
 
@@ -89,14 +84,12 @@ describe("the todo app", () => {
     expect(endingStars).toBeGreaterThan(startingStars);
   });
   it("has the right number of todos listed", async () => {
-    // this test will add a number of todos, make sure that the total count
-    // went up as would be expected, and that the count listed at the end is
-    // correct.
+
     await driver.wait(until.elementLocated(tp.todoInput));
 
     let startingTodoCount = await (await driver.findElements(tp.todos)).length;
 
-    // adding 5 todos here
+    
     await driver.findElement(tp.todoInput).sendKeys("Test To-Do 1\n");
     await driver.findElement(tp.todoInput).sendKeys("Test To-Do 2\n");
     await driver.findElement(tp.todoInput).sendKeys("Test To-Do 3\n");
